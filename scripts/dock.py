@@ -11,7 +11,11 @@ from dockstring import load_target
 def canonicalize_smiles(smiles):
     """Convert SMILES to its canonical form."""
     try:
-        return Chem.MolToSmiles(Chem.MolFromSmiles(smiles), True)
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            print(f"Error canonicalizing SMILES {smiles}: invalid SMILES")
+            return None
+        return Chem.MolToSmiles(mol, True)
     except Exception as e:
         print(f"Error canonicalizing SMILES {smiles}: {e}")
         return None
